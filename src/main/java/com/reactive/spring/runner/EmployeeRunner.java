@@ -22,8 +22,7 @@ public class EmployeeRunner implements CommandLineRunner {
                     Employee.builder().id(UUID.randomUUID().toString()).name("Sam").occupation("Lead").age(27).salary(new BigDecimal(10000)).build(),
                     Employee.builder().id(UUID.randomUUID().toString()).name("Quanta").occupation("QA").age(27).salary(new BigDecimal(6000)).build()
             ).forEach(employee -> {
-                this.employeeRepository.save(employee)
-                        .subscribe(System.out::println);
+                this.employeeRepository.save(employee);
             });
         });
     }
