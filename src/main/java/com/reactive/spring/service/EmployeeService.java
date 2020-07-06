@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 public interface EmployeeService {
     Mono<EmployeeDTO> save(Employee employee);
     Mono<EmployeeDTO> update(Employee employee);
-    void delete(String empId);
+    Mono<Void> delete(String empId);
     Flux<EmployeeDTO> findAll();
     Mono<EmployeeDTO> findById(String empId);
     Flux<EmployeeEventDTO> findEmployeeByIdWithDelay(String empId);

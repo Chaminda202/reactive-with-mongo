@@ -38,8 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void delete(String empId) {
-        this.employeeRepository.deleteById(empId);
+    public Mono<Void> delete(String empId) {
+        return this.employeeRepository.deleteById(empId);
     }
 
     @Override

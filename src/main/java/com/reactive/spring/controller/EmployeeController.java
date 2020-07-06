@@ -43,7 +43,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(value = "id") String empId) {
-        this.employeeService.delete(empId);
+    public Mono<Void> delete(@PathVariable(value = "id") String empId) {
+        return this.employeeService.delete(empId);
     }
 }

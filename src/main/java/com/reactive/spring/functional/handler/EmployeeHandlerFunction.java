@@ -26,6 +26,20 @@ public class EmployeeHandlerFunction {
                 );
     }
 
+    public Mono<ServerResponse> update(ServerRequest serverRequest) {
+        String empId = serverRequest.pathVariable("id");
+        final Mono<EmployeeDTO> employeeDTO = serverRequest.bodyToMono(EmployeeDTO.class)
+                .map(employeeDTO1 -> {
+                    employeeDTO1.setId(empId);
+                    return employeeDTO1;
+                });
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(
+                        fromPublisher(employeeDTO.map(EmployeeMapper::mapToEntity).flatMap(this.employeeService::update), EmployeeDTO.class)
+                );
+    }
+
     public Mono<ServerResponse> findAll(ServerRequest serverRequest) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -35,20 +49,29 @@ public class EmployeeHandlerFunction {
     }
 
     public Mono<ServerResponse> findById(ServerRequest serverRequest) {
-        String id = serverRequest.pathVariable("id");
+        String empId = serverRequest.pathVariable("id");
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(
-                        this.employeeService.findById(id), EmployeeDTO.class
+                        this.employeeService.findById(empId), EmployeeDTO.class
                 );
     }
 
     public Mono<ServerResponse> findEventById(ServerRequest serverRequest) {
-        String id = serverRequest.pathVariable("id");
+        String empId = serverRequest.pathVariable("id");
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(
-                        this.employeeService.findEmployeeByIdWithDelay(id), EmployeeDTO.class
+                        this.employeeService.findEmployeeByIdWithDelay(empId), EmployeeDTO.class
+                );
+    }
+
+    public Mono<ServerResponse> delete(ServerRequest serverRequest) {
+        String empId = serverRequest.pathVariable("id");
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(
+                        this.employeeService.delete(empId), Void.class
                 );
     }
 }
